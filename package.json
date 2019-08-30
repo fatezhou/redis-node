@@ -1,0 +1,19 @@
+{
+  "name": "redis-node",
+  "version": "0.5.0",
+  "description": "none",
+  "main": "main.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "redis",
+    "node"
+  ],
+  "author": "Fatezhou",
+  "license": "ISC",
+  "dependencies": {
+    "redis": "^2.8.0",
+    "uuid": "^3.3.3"
+  }
+}
