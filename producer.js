@@ -1,4 +1,4 @@
-var redisEx = require('./redisUtil')
+var redisEx = require('./redisEx')
 var redis_client = new redisEx
 redis_client.Connect("//127.0.0.1:6379")
 var querystring = require('querystring')
@@ -18,7 +18,7 @@ async function DoWork(urlParam, res){
             redis_client.Push('preLogin', {token:uuidStr, data:urlParam['data']})
             //notify the work process to deal the work
             redis_client.Publish('preLogin', "0")
-            var len = await redis_client.QueueLen('preLogin')
+            var len = await redis_client.QLen('preLogin')
             //print the queue len to client
             res.write(JSON.stringify({text:"wait for login", len:len, token:uuidStr}))
         }else if(urlParam['action'] == 'checkLogin'){
