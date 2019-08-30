@@ -9,6 +9,12 @@ function RedisClient2(){
             str = value + ""
         }else if(typeof(value) == "string"){
             str = value
+        }else if(typeof(value) == "boolean"){
+            if(value){
+                str = "true"
+            }else{
+                str = "false"
+            }
         }else{
             return null
         }
@@ -118,6 +124,17 @@ function RedisClient2(){
     }
     this.Unsubscribe = function(keys){
         client.unsubscribe(keys)
+    }
+    this.Keys = function(key){
+        return new Promise(function(resovle, reject){
+            client.keys(key, function(err, value){
+                if(err != null){
+                    reject(err)
+                }else{
+                    resovle(value)
+                }
+            })
+        })
     }
     this.Close = function(){
         client.end()

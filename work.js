@@ -22,7 +22,8 @@ async function DoWork(){
     }catch(err){
         //console.error(err)
     }
-    
+    //var res = await redis_queue.Keys("*89bc*")
+    //console.info(res)
 }
 
 redis_subscribe.Subscribe(['preLogin'], function(ch, msg){
@@ -32,6 +33,10 @@ redis_subscribe.Subscribe(['preLogin'], function(ch, msg){
         DoWork()
     }
 })
+
+
+
+
 DoWork()
 setInterval(function(){
     DoWork()
