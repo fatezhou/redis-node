@@ -16,7 +16,7 @@ async function DoWork(urlParam, res){
         if(urlParam['action'] == 'preLogin'){
             //make a uuid , register a object into the queue
             var uuidStr = uuid.v1()
-            redis_client.Push('preLogin', {token:uuidStr, data:urlParam['data'], time:Date.now()})
+            redis_client.Push('preLogin', {token:uuidStr, data:urlParam['data'], time:Date.now()}) 
             //notify the work process to deal the work
             redis_client.Publish('preLogin', "0")
             var len = await redis_client.QLen('preLogin')

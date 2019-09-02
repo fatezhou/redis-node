@@ -9,11 +9,12 @@ const redisExpireSecond = 1800 // 1800 seconds for exprie
 async function DoWork(){
     try{
         var res = await redis_queue.Pop('preLogin')
-        //console.info(res)
         if(res != null){
             try{
                 var res = JSON.parse(res)
                 //do something here
+                
+                console.info(res)
                 redis_queue.Set(res.token, {ready:true, time:Date.now()}, redisExpireSecond)
             }catch(err){
                 console.error(err)

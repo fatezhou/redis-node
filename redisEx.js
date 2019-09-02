@@ -84,6 +84,36 @@ function RedisClient2(){
             }
         })
     }
+    this.BPop = function(key, timeout, bFront){//感觉内存会涨得很厉害, 不知道为啥, 还没找到原因
+        return new Promise(function(resovle, reject){
+            if(bFront == null || bFront == true){
+                client.blpop(key, timeout || 10, function(err, value){
+                    if(err){
+                        console.error(err)
+                    }else{
+                        resovle(value)
+                    }
+                })
+            }else{
+                client.brpop(key, timeout || 10, function(err, value){
+                    if(err){
+                        console.error(err)
+                    }else{
+                        resovle(value)
+                    }
+                })
+            }
+        })
+    }
+
+    this.BPop2 = function(key, timeout, callback, bFront){//感觉内存会涨得很厉害, 不知道为啥, 还没找到原因
+        if(bFront == null || bFront == true){
+            client.blpop(key, timeout || 10, callback)
+        }else{
+            client.brpop(key, timeout || 10, callback)
+        }
+    }
+
     this.Foreach = function(key, nStartIndex, nStopIndex){
         return new Promise(function(resovle, reject){
             if(nStartIndex < 0){

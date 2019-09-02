@@ -3,10 +3,18 @@ var redisCli = new redis
 
 redisCli.Connect("//127.0.0.1:6379")
 
-async function SetValue(k, v){
-    redisCli.Set(k, v, 10)
-}
-redisCli.SetDefaultExpire(10)
-SetValue("hello", "world")
+redisCli.Set("Hello", "World", 1000)
 
-console.info(process.argv.slice(2))
+
+async function BPOP(){
+    res = await redisCli.BPop("list", 10)
+    console.info(res)
+}
+
+function BPOP2(){
+    redisCli.BPop2("list", 10000, function(err, value){
+        console.info(err, value)
+    })
+}
+
+BPOP()
