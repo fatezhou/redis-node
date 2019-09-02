@@ -180,6 +180,17 @@ function RedisClient2(){
     this.RemoveAll = function(){
         client.flushall() // may remove all keys, include queues, be more carefull
     }
+    this.TTL = function(key){
+        return new Promise(function(resovle, reject){
+            client.ttl(key, function(err, number){
+                if(err){
+                    console.error(err)
+                }else{
+                    resovle(number)
+                }
+            })
+        })
+    }
     this.redis = function(){ // export the redis object, to supply some actions
         return client
     }
