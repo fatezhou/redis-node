@@ -27,12 +27,15 @@ function RedisClient2(){
     this.Select = function(nIndex){
         client.select("" + nIndex)
     }
-    this.Set = function(key, value){
+    this.Set = function(key, value, expireTimeSecond){
         var str = ValueToString(value)
         if(typeof(key) != "string" || str == null){
             return
         }
         client.set(key, str)
+        if(expireTime != null){
+            redis.expire(key, expireTimeSecond, function(e, v){})
+        }
     }
     this.Get = function(key){
         return new Promise(function(resovle, reject){

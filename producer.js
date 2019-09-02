@@ -8,6 +8,7 @@ var uuid = require('uuid')
 
 const port = 8899
 
+
 async function DoWork(urlParam, res){
     if(urlParam['action'] == null){
         res.write('{"error":true, "text":"action is null"}')
@@ -15,22 +16,22 @@ async function DoWork(urlParam, res){
         if(urlParam['action'] == 'preLogin'){
             //make a uuid , register a object into the queue
             var uuidStr = uuid.v1()
-            redis_client.Push('preLogin', {token:uuidStr, data:urlParam['data']})
+            redis_client.Push('preLogin', {token:uuidStr, data:urlParam['data'], time:Date.now()})
             //notify the work process to deal the work
             redis_client.Publish('preLogin', "0")
             var len = await redis_client.QLen('preLogin')
             //print the queue len to client
-            res.write(JSON.stringify({text:"wait for login", len:len, token:uuidStr}))
+            res.write(JSON.stringify({text:"wait for login", len:len, token:uuidStr, time:Date.now()}))
         }else if(urlParam['action'] == 'checkLogin'){
             if(urlParam['token'] == null){
                 res.write('{"error":true, "text":"no token"}')
             }else{
                 let key = urlParam['token']
                 var data = await redis_client.Get(key)
-                console.info(data)
                 if(data != null){
                     redis_client.Del(key)
-                    res.write('{"text":"ready to login"}')
+                    var obj = {text:"Ready to login", time:Date.now()}
+                    res.write(JSON.stringify(obj))
                 }else{
                     res.write('{"error":true, "text":"can not login yet"}')
                 }
@@ -52,7 +53,7 @@ http.createServer(function(req, res){
         console.info(urlParam)
         DoWork(urlParam, res)
     }catch(err){
-        res.write('{"error":true}')
+        res.write('{"error":true, "text":"bad request"}')
         res.end()
     }
 }).listen(port)
