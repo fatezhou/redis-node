@@ -145,6 +145,9 @@ function RedisClient2(){
     this.RemoveAll = function(){
         client.flushall() // may remove all keys, include queues, be more carefull
     }
+    this.redis = function(){ // export the redis object, to supply some actions
+        return client
+    }
 }
 
 module.exports = RedisClient2
