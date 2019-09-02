@@ -8,3 +8,5 @@ async function SetValue(k, v){
 }
 redisCli.SetDefaultExpire(10)
 SetValue("hello", "world")
+
+console.info(process.argv.slice(2))

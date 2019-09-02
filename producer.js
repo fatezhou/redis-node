@@ -6,7 +6,7 @@ var url = require('url')
 var http = require('http')
 var uuid = require('uuid')
 
-const port = 8899
+const port = (process.argv.slice(2)[0]) || 8899 
 
 
 async function DoWork(urlParam, res){

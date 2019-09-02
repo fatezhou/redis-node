@@ -36,7 +36,7 @@ function RedisClient2(){
         if(typeof(key) != "string" || str == null){
             return
         }
-        expireTimeSecond = expireTimeSecond | this.expireTimeSecond
+        expireTimeSecond = expireTimeSecond || this.expireTimeSecond
         client.set(key, str, "ex", expireTimeSecond)
     }
     this.Get = function(key){

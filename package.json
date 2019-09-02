@@ -4,9 +4,9 @@
   "description": "none",
   "main": "",
   "scripts": {
-    "test": "node test.js",
+    "test": "node test.js 8899",
     "work": "node work.js",
-    "producer": "node producer.js"
+    "producer": "node producer.js 5598"
   },
   "keywords": [
     "redis",
