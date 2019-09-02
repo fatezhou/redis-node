@@ -118,7 +118,7 @@ function RedisClient2(){
     this.Subscribe = function(keys, callback){
         client.subscribe(keys)
         client.on('message', function(channel, message){
-        callback(channel, message)
+            callback(channel, message)
         })
     }
     this.Publish = function(key, value){
