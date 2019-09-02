@@ -142,6 +142,9 @@ function RedisClient2(){
     this.Close = function(){
         client.end()
     }
+    this.RemoveAll = function(){
+        client.flushall() // may remove all keys, include queues, be more carefull
+    }
 }
 
 module.exports = RedisClient2
