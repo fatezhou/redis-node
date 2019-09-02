@@ -21,21 +21,23 @@ function RedisClient2(){
         return str
     }
     var client
+    this.expireTimeSecond = 1800
     this.Connect = function(url){
         client = redis.createClient(url)
     }
     this.Select = function(nIndex){
-        client.select("" + nIndex)
+        client.select(nIndex)
+    }
+    this.SetDefaultExpire = function(expireTimeSecond){
+        this.expireTimeSecond = expireTimeSecond
     }
     this.Set = function(key, value, expireTimeSecond){
         var str = ValueToString(value)
         if(typeof(key) != "string" || str == null){
             return
         }
-        client.set(key, str)
-        if(expireTime != null){
-            redis.expire(key, expireTimeSecond, function(e, v){})
-        }
+        expireTimeSecond = expireTimeSecond | this.expireTimeSecond
+        client.set(key, str, "ex", expireTimeSecond)
     }
     this.Get = function(key){
         return new Promise(function(resovle, reject){
@@ -141,6 +143,9 @@ function RedisClient2(){
     }
     this.Close = function(){
         client.end()
+    }
+    this.Expire = function(key, seconds){
+        client.expire(key, seconds, function(e, v){})
     }
     this.RemoveAll = function(){
         client.flushall() // may remove all keys, include queues, be more carefull
