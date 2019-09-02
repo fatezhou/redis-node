@@ -2,9 +2,11 @@
   "name": "redis-node",
   "version": "0.5.0",
   "description": "none",
-  "main": "main.js",
+  "main": "",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test.js",
+    "work": "node work.js",
+    "producer": "node producer.js"
   },
   "keywords": [
     "redis",
